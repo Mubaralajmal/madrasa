@@ -3,109 +3,149 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Three Text Types</title>
+  <title>Responsive Text Preview</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Segoe UI", Arial, sans-serif;
       padding: 20px;
       display: flex;
-      gap: 20px;
-      flex-wrap: wrap; /* allows stacking on small screens */
+      gap: 30px;
+      flex-wrap: wrap; 
+      background: #f4f6f9;
+      color: #333;
+      justify-content: center;
     }
 
+    /* Left form container */
     #contain {
-      flex: 1 1 300px;
+      flex: 1 1 320px;
       min-width: 280px;
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      max-width: 400px;
+    }
+
+    #contain h2 {
+      margin-bottom: 15px;
+      font-size: 22px;
+      color: #222;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 6px;
     }
 
     input, textarea {
       width: 100%;
-      margin: 10px 0;
-      padding: 8px;
+      margin-bottom: 15px;
+      padding: 10px;
       font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: border 0.3s;
     }
 
+    input:focus, textarea:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    /* Stylish buttons */
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover { background: #0056b3; }
+    .btn.secondary { background: #28a745; }
+    .btn.secondary:hover { background: #1e7e34; }
+
+    /* Preview box */
     .preview {
       flex: 1 1 400px;
       min-width: 300px;
-      max-width: 100%;
-      height: auto;
-      min-height: 1000px;
+      max-width: 600px;
+      aspect-ratio: 3/4; /* keeps proportion */
       border: 1px solid #ccc;
-      padding: 20px;
       border-radius: 10px;
       background-image: url('bb.jpg');
       background-position: center;
       background-size: contain;
-      color: black;
+      background-repeat: no-repeat;
+      background-color: #fff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
     }
 
-    .preview h1, 
-    .preview h2, 
-    .preview p {
+    /* Position text absolutely */
+    #prevHeading, #prevSubheading, #prevParagraph {
+      position: absolute;
       word-wrap: break-word;
       overflow-wrap: break-word;
       white-space: normal;
-      margin-left: 50px;
-    }
-
-    #prev {
-      max-width: 95%;
-      margin-top: 620px;
     }
 
     #prevHeading {
-      margin-top: 10px;
-      color: rgb(255, 255, 255);
-      font-size: clamp(30px, 4vw, 42px); /* scales with screen */
+      top: 62%;
+      left: 10%;
+      right: 10%;
+      font-size: clamp(24px, 4vw, 42px);
+      color: white;
+      text-align: left;
     }
 
     #prevSubheading {
-        margin-left: 300px;
-      margin-top: 20%;
+      top: 55%;
+      left: 10%;
+      right: 10%;
+      font-size: clamp(20px, 3.5vw, 35px);
       font-weight: bold;
       color: red;
-      font-size: clamp(30px, 4vw, 35px);
-      margin-bottom: 35px;
+      text-align: center;
     }
 
     #prevParagraph {
+      bottom: 20%;
+      left: 10%;
+      right: 10%;
+      font-size: clamp(16px, 2.5vw, 24px);
       color: black;
-      margin-top: 10px;
-      margin-left: 40px;
-      font-size: clamp(20px, 2.5vw, 25px);
+      text-align: left;
     }
 
     /* PRINT ONLY PREVIEW */
     @media print {
-      body * {
-        visibility: hidden !important;
-      }
-      .preview, .preview * {
-        visibility: visible !important;
-      }
+      body * { visibility: hidden !important; }
+      .preview, .preview * { visibility: visible !important; }
       .preview {
-        position: absolute;
-        left: 0;
-        top: 0;
+        position: fixed;
+        left: 0; top: 0;
         width: 100vw;
         height: 100vh;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
-        background-image: url('bb.jpg') !important;
-        background-size: cover !important;
-        background-position: center !important;
+        background-size: contain !important;
       }
     }
 
-    /* EXTRA MOBILE STYLING */
+    /* Mobile adjustments */
     @media (max-width: 768px) {
-      body {
-        flex-direction: column;
-      }
-      .preview {
-        min-height: 300px;
-      }
+      body { flex-direction: column; align-items: center; }
+      .preview { max-width: 90vw; }
     }
   </style>
 </head>
@@ -122,16 +162,19 @@
     <label>അർത്ഥം:</label>
     <textarea id="paragraph" placeholder="Type a paragraph..."></textarea>
 
-    <button onclick="printPreview()">🖨️ Print Preview Only</button>
+    <button class="btn" onclick="printPreview()">🖨️ Print Preview Only</button>
+    <button class="btn secondary" onclick="downloadPDF()">⬇️ Download as PDF</button>
   </div>
 
-  <div class="preview">
-    <div id="prev">
-      <h2 id="prevSubheading">Preview</h2>
-      <h1 id="prevHeading">Preview</h1>
-      <p id="prevParagraph">Preview</p>
-    </div>
+  <div class="preview" id="previewBox">
+    <h2 id="prevSubheading">Preview Subheading</h2>
+    <h1 id="prevHeading">Preview Heading</h1>
+    <p id="prevParagraph">Preview Paragraph</p>
   </div>
+  
+  <!-- html2canvas + jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   
   <script>
     const heading = document.getElementById("heading");
@@ -141,15 +184,28 @@
     const prevSubheading = document.getElementById("prevSubheading");
     const prevParagraph = document.getElementById("prevParagraph");
     
-    heading.addEventListener("input", () => prevHeading.textContent = heading.value);
-    subheading.addEventListener("input", () => prevSubheading.textContent = subheading.value);
-    paragraph.addEventListener("input", () => prevParagraph.textContent = paragraph.value);
+    heading.addEventListener("input", () => prevHeading.textContent = heading.value || "Preview Heading");
+    subheading.addEventListener("input", () => prevSubheading.textContent = subheading.value || "Preview Subheading");
+    paragraph.addEventListener("input", () => prevParagraph.textContent = paragraph.value || "Preview Paragraph");
 
-    // Print only the preview div
-    function printPreview() {
-      window.print();
+    function printPreview() { window.print(); }
+
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const preview = document.getElementById("previewBox");
+
+      const canvas = await html2canvas(preview, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save("preview.pdf");
     }
   </script>
 </body>
 </html>
-
