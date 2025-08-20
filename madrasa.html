@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three Text Types</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap; /* allows stacking on small screens */
+    }
+
+    #contain {
+      flex: 1 1 300px;
+      min-width: 280px;
+    }
+
+    input, textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    .preview {
+      flex: 1 1 400px;
+      min-width: 300px;
+      max-width: 100%;
+      height: auto;
+      min-height: 1000px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 10px;
+      background-image: url('bb.jpg');
+      background-position: center;
+      background-size: cover;
+      color: black;
+    }
+
+    .preview h1, 
+    .preview h2, 
+    .preview p {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      margin-left: 50px;
+    }
+
+    #prev {
+      max-width: 95%;
+      margin-top: 620px;
+    }
+
+    #prevHeading {
+      margin-top: 10px;
+      color: rgb(255, 255, 255);
+      font-size: clamp(30px, 4vw, 42px); /* scales with screen */
+    }
+
+    #prevSubheading {
+        margin-left: 300px;
+      margin-top: 20%;
+      font-weight: bold;
+      color: red;
+      font-size: clamp(30px, 4vw, 35px);
+      margin-bottom: 35px;
+    }
+
+    #prevParagraph {
+      color: black;
+      margin-top: 10px;
+      margin-left: 40px;
+      font-size: clamp(20px, 2.5vw, 25px);
+    }
+
+    /* PRINT ONLY PREVIEW */
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      .preview, .preview * {
+        visibility: visible !important;
+      }
+      .preview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        background-image: url('bb.jpg') !important;
+        background-size: cover !important;
+        background-position: center !important;
+      }
+    }
+
+    /* EXTRA MOBILE STYLING */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .preview {
+        min-height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="contain">
+    <h2>Type Your Text</h2>
+    
+    <label>പ്രാർത്ഥന :</label>
+    <input type="text" id="heading" placeholder="Type a heading...">
+    
+    <label>Purpose:</label>
+    <input type="text" id="subheading" placeholder="Type a subheading...">
+    
+    <label>അർത്ഥം:</label>
+    <textarea id="paragraph" placeholder="Type a paragraph..."></textarea>
+
+    <button onclick="printPreview()">🖨️ Print Preview Only</button>
+  </div>
+
+  <div class="preview">
+    <div id="prev">
+      <h2 id="prevSubheading">Preview</h2>
+      <h1 id="prevHeading">Preview</h1>
+      <p id="prevParagraph">Preview</p>
+    </div>
+  </div>
+  
+  <script>
+    const heading = document.getElementById("heading");
+    const subheading = document.getElementById("subheading");
+    const paragraph = document.getElementById("paragraph");
+    const prevHeading = document.getElementById("prevHeading");
+    const prevSubheading = document.getElementById("prevSubheading");
+    const prevParagraph = document.getElementById("prevParagraph");
+    
+    heading.addEventListener("input", () => prevHeading.textContent = heading.value);
+    subheading.addEventListener("input", () => prevSubheading.textContent = subheading.value);
+    paragraph.addEventListener("input", () => prevParagraph.textContent = paragraph.value);
+
+    // Print only the preview div
+    function printPreview() {
+      window.print();
+    }
+  </script>
+</body>
+</html>
