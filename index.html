@@ -194,7 +194,7 @@
       const { jsPDF } = window.jspdf;
       const preview = document.getElementById("previewBox");
 
-      const canvas = await html2canvas(preview, { scale: 2 });
+      const canvas = await html2canvas(preview, { scale: 0 });
       const imgData = canvas.toDataURL("image/png");
 
       const pdf = new jsPDF("p", "mm", "a4");
@@ -209,3 +209,4 @@
   </script>
 </body>
 </html>
+
